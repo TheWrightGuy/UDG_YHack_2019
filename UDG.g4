@@ -35,11 +35,14 @@ program: comment_list;
 comment_list: comment_list comment junk_lines 
             | junk_lines 
             ;
-comment : LCOMM injunk_list comm_type RCOMM;
+comment : LCOMM injunk_list comm_type RCOMM
+        ;
 comm_type   : comm_type COMCODE tags_list
             | comm_type NL
             | NL
             | COMCODE tags_list
+            | junk_lines
+            |
             ;
  
 
@@ -54,8 +57,11 @@ tag_prefix : RET
            ;
 
 junk_lines  : junk_lines '\n' junk_list | junk_list;
-junk_list   : junk_list JUNK | JUNK |;
+junk_list   : junk_list junk_or_word | junk_or_word |;
+junk_or_word: JUNK | ID;
 injunk_list : injunk_list INJUNK 
             | injunk_list '\n' 
             | INJUNK
+            |
             |;
+injunk_lines: injunk_lines '\n' injunk_list | injunk_list;
