@@ -31,7 +31,9 @@ author  : AUTHOR id_list;
 junk_list: junk_list JUNK | JUNK;
 */
 
-program: comment_list;
+program: comment_list {
+    System.out.println("Success!");
+};
 comment_list: comment_list comment junk_lines 
             | junk_lines 
             ;
