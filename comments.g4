@@ -1,11 +1,21 @@
 grammar comments;
+ID      : [a-z]A-Z+[a-z0-9A-Z ]* ;           // match lower-case identifiers
+WS      : [ \r\n]+ -> skip ;                 // skip spaces, tabs, newlines
+//NC      : [a-zA-Z]+;
+PARAM   : '\t@param';
+NAME    : '\t@name';
+AUTHOR  : '\t@author';
+RET     : '\t@beturns';
 
-program: param name author;
-param  : '\t@param' ID ;           // match keyword hello followed by an identifier
-ID : [a-z]+[a-z0-9 ]* ;          // match lower-case identifiers
-WS : [ \r\n]+ -> skip ;        // skip spaces, tabs, newlines
+program: feature_list;
+feature_list : feature || feature_list feature;
+feature : (param||author||ret||name);
 
-name   : '\t@name' ID ;
-author : '\t@author' NC NC;
+ret     : RET ID;
+param   : PARAM ID;           // match keyword hello followed by an identifier
+name    : NAME ID;
+//author  : AUTHOR NC NC;
+author  :   AUTHOR ID
 
-NC : [a-zA-Z]+;
+
+
